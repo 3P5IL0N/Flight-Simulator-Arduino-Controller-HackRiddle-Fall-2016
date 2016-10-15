@@ -7,6 +7,8 @@ void setup() {
   CurieIMU.begin();
   Serial.begin(9600);
   CurieIMU.autoCalibrateGyroOffset();
+  CurieIMU.setGyroRate(100);
+  double totX=0, totY=0;
 }
 
 void loop() {
@@ -16,11 +18,13 @@ void loop() {
   CurieIMU.readGyro(rawX, rawY, trash);
   X=(rawX/32768.9)*CurieIMU.getGyroRange();
   Y=(rawY/32768.9)*CurieIMU.getGyroRange();
-  if (X<10)
+  if (-10<X && X<10)
     X=0;
-  if (Y<10)
+  if (-10<Y && Y<10)
     Y=0;
-  Serial.print(X);
+  totX+=X;
+  totY+=Y;
+  Serial.print(totX);
   Serial.print(" ");
-  Serial.println(Y);
+  Serial.println(totY);
 }
