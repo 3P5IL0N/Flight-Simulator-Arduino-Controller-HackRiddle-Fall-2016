@@ -2,6 +2,7 @@
 #include <CurieIMU.h>
 
 double totX=0, totY=0;
+int i=0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -22,9 +23,15 @@ void loop() {
     X=0;
   if (-3<Y && Y<3)
     Y=0;
-  totX+=(X*.01);
-  totY+=(Y*.01);
-  Serial.print(totX);
-  Serial.print(" ");
-  Serial.println(totY);
+  totX += X;
+  totY += Y;
+  i++;
+  if(i==10){
+    i=0;
+    Serial.print(totX/10);
+    Serial.print(" ");
+    Serial.println(totY/10);
+    totX = 0;
+    totY = 0;
+  }
 }
