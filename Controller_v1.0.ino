@@ -2,7 +2,7 @@
 #include <CurieIMU.h>
 
 double totX=0, totY=0;
-int i=0, c=0, Accpos=2;
+int i=0, c=0, Accpos=2, incomingByte=0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -49,10 +49,17 @@ void loop() {
 
   if (c!=0) c--;
   else Accpos=2;
-
-
-    
+  
   i++;
+  
+  if(Serial.available() > 0){
+    incomingByte = Serial.read();
+    if(incomingByte == 1){
+      CurieIMU.autoCalibrateGyroOffset();
+      incomingByte = 0;
+    }
+  }
+  
   if (i%10==0)
   {
     i-=10;
